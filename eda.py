@@ -95,3 +95,18 @@ for col in categorical_cols:
     plt.savefig(f"count_{col}_test.png")
     plt.clf()
 
+#realizarea boxplot-urilor
+
+for col in numerical_cols:
+    sns.boxplot(data = train_clean, x = col)
+    plt.title(f"Boxplot pentru: {col}")
+    plt.tight_layout()
+    plt.savefig(f"box_{col}_train.png")
+    plt.clf()
+
+for col in numerical_cols:
+    sns.boxplot(data = test_clean, x = col)
+    plt.title(f"Boxplot pentru: {col}")
+    plt.tight_layout()
+    plt.savefig(f"box_{col}_test.png")
+    plt.clf()
