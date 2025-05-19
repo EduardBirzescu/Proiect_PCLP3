@@ -96,6 +96,7 @@ for col in categorical_cols:
     plt.clf()
 
 #realizarea boxplot-urilor
+print("\nBoxplot-urile pentru variabilele numerice ale datelor de train")
 for col in numerical_cols:
     sns.boxplot(data = train_clean, x = col)
     plt.title(f"Boxplot pentru: {col}")
@@ -103,6 +104,7 @@ for col in numerical_cols:
     plt.savefig(f"box_{col}_train.png")
     plt.clf()
 
+print("\nBoxplot-urile pentru variabilele numerice ale datelor de test")
 for col in numerical_cols:
     sns.boxplot(data = test_clean, x = col)
     plt.title(f"Boxplot pentru: {col}")
@@ -115,14 +117,56 @@ correlation_cols = numerical_cols + ['disease']
 correlation_matrix_train = train_clean[correlation_cols].corr(method = 'pearson')
 correlation_matrix_test = test_clean[correlation_cols].corr(method = 'pearson')
 
+print("\nMatricea de corelatii pentru datele train")
 sns.heatmap(correlation_matrix_train, annot = True, cmap = 'coolwarm', fmt = ".2f")
 plt.title("Matricea de corelatii pentru datele train" )
 plt.tight_layout()
 plt.savefig("heatmap_correlation_train.png")
 plt.clf()
 
+print("\nMatricea de corelatii pentru datele test")
 sns.heatmap(correlation_matrix_test, annot = True, cmap = 'coolwarm', fmt = ".2f")
 plt.title("Matricea de corelatii pentru datele test" )
 plt.tight_layout()
 plt.savefig("heatmap_correlation_test.png")
 plt.clf()
+
+#analiza relatiilor cu variabila tinta folosind scatter plots sau violin plots
+
+#Violin
+print("\nViolin plost pentru datele train")
+
+for col in numerical_cols:
+    sns.violinplot(data=train_clean, x = 'disease', y = col)
+    plt.title(f"{col} vs disease - violin")
+    plt.tight_layout()
+    plt.savefig(f"{col}_vs_disease_violin_train.png")
+    plt.clf()    
+
+print("\nViolin plost pentru datele test")
+
+for col in numerical_cols:
+    sns.violinplot(data=test_clean, x = 'disease', y = col)
+    plt.title(f"{col} vs disease - violin")
+    plt.tight_layout()
+    plt.savefig(f"{col}_vs_disease_violin_test.png")
+    plt.clf()
+
+#Scatter
+print("\nScatter plost pentru datele train")
+
+for col in numerical_cols:
+    sns.violinplot(data=train_clean, x = col, y = 'disease', alpha = 0.5)
+    plt.title(f"{col} vs disease - scatter")
+    plt.tight_layout()
+    plt.savefig(f"{col}_vs_disease_scatter_train.png")
+    plt.clf()
+
+print("\nScatter plost pentru datele test")
+
+for col in numerical_cols:
+    sns.violinplot(data=test_clean, x = col, y = 'disease', alpha = 0.5)
+    plt.title(f"{col} vs disease - scatter")
+    plt.tight_layout()
+    plt.savefig(f"{col}_vs_disease_scatter_test.png")
+    plt.clf()
