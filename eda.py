@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 #citim fisierele CSV
 train_df = pd.read_csv('train_data.csv')
@@ -134,7 +136,7 @@ plt.clf()
 #analiza relatiilor cu variabila tinta folosind scatter plots sau violin plots
 
 #Violin
-print("\nViolin plost pentru datele train")
+print("\nViolin plots pentru datele train")
 
 for col in numerical_cols:
     sns.violinplot(data=train_clean, x = 'disease', y = col)
@@ -143,7 +145,7 @@ for col in numerical_cols:
     plt.savefig(f"{col}_vs_disease_violin_train.png")
     plt.clf()    
 
-print("\nViolin plost pentru datele test")
+print("\nViolin plots pentru datele test")
 
 for col in numerical_cols:
     sns.violinplot(data=test_clean, x = 'disease', y = col)
@@ -153,7 +155,7 @@ for col in numerical_cols:
     plt.clf()
 
 #Scatter
-print("\nScatter plost pentru datele train")
+print("\nScatter plots pentru datele train")
 
 for col in numerical_cols:
     sns.violinplot(data=train_clean, x = col, y = 'disease', alpha = 0.5)
@@ -162,7 +164,7 @@ for col in numerical_cols:
     plt.savefig(f"{col}_vs_disease_scatter_train.png")
     plt.clf()
 
-print("\nScatter plost pentru datele test")
+print("\nScatter plots pentru datele test")
 
 for col in numerical_cols:
     sns.violinplot(data=test_clean, x = col, y = 'disease', alpha = 0.5)
@@ -170,3 +172,32 @@ for col in numerical_cols:
     plt.tight_layout()
     plt.savefig(f"{col}_vs_disease_scatter_test.png")
     plt.clf()
+
+#separarea datelor in X(features) si y(targer)
+
+target_col = 'disease'
+feature_col = [col for col in train_clean.columns if col != target_col]
+
+X_train = train_clean[feature_col]
+y_train = train_clean[target_col]
+
+X_test = test_clean[feature_col]
+y_test = test_clean[target_col]
+
+#transformarea variabilelor categorice, in variabile numerice
+X_train_encoded = pd.get_dummies(X_train, drop_first = True)
+X_test_encoded = pd.get_dummies(X_test, drop_first = True)
+
+#antrenarea modelului
+model = LogisticRegression(max_iter = 1000, random_state = 42)
+model.fit(X_train_encoded, y_train)
+
+#afisarea datelor legate de: acuratete, precizie, recall si F1_score
+
+y_pred = model.predict(X_test_encoded)
+print("\nAfisare date:")
+print(f"Acuratete: {accuracy_score(y_test, y_pred): .2f}")
+print(f"Precizie: {precision_score(y_test, y_pred): .2f}")
+print(f"Recall: {recall_score(y_test, y_pred): .2f}")
+print(f"F1_score: {f1_score(y_test, y_pred): .2f}")
+
