@@ -1,4 +1,7 @@
 import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 #citim fisierele CSV
 train_df = pd.read_csv('train_data.csv')
@@ -33,7 +36,6 @@ print("Lipsuri ramase in train:\n", train_clean.isnull().sum())
 print("Lipsuri ramase in test:\n", test_clean.isnull().sum())
 
 #afisarea statisticilor descriptive
-
 print("\nStatistici numerice descriptive pentru Train:\n", train_df.describe().T)
 print("\nStatistici numerice descriptive pentru Test:\n", test_df.describe().T)
 print("\nStatistici categorice descriptive pentru Train:\n")
@@ -42,4 +44,54 @@ for col in categorical_cols:
 print("\nStatistici categorice descriptive pentru Test:\n")
 for col in categorical_cols:
     print(f"{col}:\n{test_df[col].value_counts()}\n")
+
+#setarile genearel pentru grafice
+sns.set(style="whitegrid")
+plt.rcParams["figure.figsize"] = (8, 5)
+
+#realizarea histogramelor pentru variabilele numerice
+print("\nHistogramele pentru variabilele numerice ale datelor de train")
+
+for col in numerical_cols:
+    sns.histplot(data = train_clean, x = col, kde = True, bins = 20)
+    plt.title(f"Distributia valorii: {col}")
+    plt.xlabel(col)
+    plt.ylabel("Frecventa")
+    plt.tight_layout()
+    plt.savefig(f"hist_{col}_train.png")
+    plt.clf()
+
+print("\nHistogramele pentru variabilele numerice ale datelor de test")
+
+for col in numerical_cols:
+    sns.histplot(data = test_clean, x = col, kde = True, bins = 20)
+    plt.title(f"Distributia valorii: {col}")
+    plt.xlabel(col)
+    plt.ylabel("Frecventa")
+    plt.tight_layout()
+    plt.savefig(f"hist_{col}_test.png")
+    plt.clf()
+
+#realizarea countplot-urilor pentru variabilele categorice
+print("\nCountplot-urile pentru variabilele categorice ale datelor de train")
+
+for col in categorical_cols:
+    sns.countplot(data = train_clean, x = col)
+    plt.title(f"Distributia valorii: {col}")
+    plt.xlabel(col)
+    plt.ylabel("Frecventa")
+    plt.tight_layout()
+    plt.savefig(f"count_{col}_train.png")
+    plt.clf()
+
+print("\nCountplot-urile pentru variabilele categorice ale datelor de test")
+
+for col in categorical_cols:
+    sns.countplot(data = test_clean, x = col)
+    plt.title(f"Distributia valorii: {col}")
+    plt.xlabel(col)
+    plt.ylabel("Frecventa")
+    plt.tight_layout()
+    plt.savefig(f"count_{col}_test.png")
+    plt.clf()
 
