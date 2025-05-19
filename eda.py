@@ -110,4 +110,19 @@ for col in numerical_cols:
     plt.savefig(f"box_{col}_test.png")
     plt.clf()
 
+#generarea matricei de corelatii
+correlation_cols = numerical_cols + ['disease']
+correlation_matrix_train = train_clean[correlation_cols].corr(method = 'pearson')
+correlation_matrix_test = test_clean[correlation_cols].corr(method = 'pearson')
 
+sns.heatmap(correlation_matrix_train, annot = True, cmap = 'coolwarm', fmt = ".2f")
+plt.title("Matricea de corelatii pentru datele train" )
+plt.tight_layout()
+plt.savefig("heatmap_correlation_train.png")
+plt.clf()
+
+sns.heatmap(correlation_matrix_test, annot = True, cmap = 'coolwarm', fmt = ".2f")
+plt.title("Matricea de corelatii pentru datele test" )
+plt.tight_layout()
+plt.savefig("heatmap_correlation_test.png")
+plt.clf()
