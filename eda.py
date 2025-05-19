@@ -96,7 +96,6 @@ for col in categorical_cols:
     plt.clf()
 
 #realizarea boxplot-urilor
-
 for col in numerical_cols:
     sns.boxplot(data = train_clean, x = col)
     plt.title(f"Boxplot pentru: {col}")
@@ -110,3 +109,5 @@ for col in numerical_cols:
     plt.tight_layout()
     plt.savefig(f"box_{col}_test.png")
     plt.clf()
+
+
