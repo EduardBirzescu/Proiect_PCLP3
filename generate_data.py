@@ -24,9 +24,20 @@ def generate_data(n):
         'blood_sugar': np.round(np.random.uniform(70, 200, n), 1),
         'disease': np.random.randint(0, 2, n)  
     }
-    return pd.DataFrame(data)
 
-#conversie in DataFrame
+    #conversie in DataFrame
+    df = pd.DataFrame(data)
+
+    #intorducem valori lipsa
+    missing = 0.05
+    for col in df.columns:
+        if col == 'disease':
+            continue
+        mask = np.random.rand(len(df)) < missing
+        df.loc[mask, col] = np.nan
+
+    return df
+
 df = generate_data(total)
 
 #separarea datelor in seturi de antrenare si testare
