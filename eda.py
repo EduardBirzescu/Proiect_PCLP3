@@ -18,7 +18,7 @@ train_clean = train_df.copy()
 test_clean = test_df.copy()
 #separarea coloanelor in functie de tipul de variabile
 categorical_cols = ['sex', 'smoking', 'alcohol']
-numerical_cols = ['exercise_freq', 'blood_pressure', 'cholesterol', 'blood_sugar']
+numerical_cols = ['age', 'exercise_freq', 'blood_pressure', 'cholesterol', 'blood_sugar']
 
 #rezolvam lipsurile
 for col in numerical_cols:
@@ -32,4 +32,14 @@ for col in categorical_cols:
 print("Lipsuri ramase in train:\n", train_clean.isnull().sum())
 print("Lipsuri ramase in test:\n", test_clean.isnull().sum())
 
+#afisarea statisticilor descriptive
+
+print("\nStatistici numerice descriptive pentru Train:\n", train_df.describe().T)
+print("\nStatistici numerice descriptive pentru Test:\n", test_df.describe().T)
+print("\nStatistici categorice descriptive pentru Train:\n")
+for col in categorical_cols:
+    print(f"{col}:\n{train_df[col].value_counts()}\n")
+print("\nStatistici categorice descriptive pentru Test:\n")
+for col in categorical_cols:
+    print(f"{col}:\n{test_df[col].value_counts()}\n")
 
