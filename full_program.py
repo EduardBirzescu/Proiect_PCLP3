@@ -193,7 +193,6 @@ model = LogisticRegression(max_iter = 1000, random_state = 42)
 model.fit(X_train_encoded, y_train)
 
 #afisarea datelor legate de: acuratete, precizie, recall si F1_score
-
 y_pred = model.predict(X_test_encoded)
 print("\nAfisare date:")
 print(f"Acuratete: {accuracy_score(y_test, y_pred): .2f}")
@@ -201,3 +200,12 @@ print(f"Precizie: {precision_score(y_test, y_pred): .2f}")
 print(f"Recall: {recall_score(y_test, y_pred): .2f}")
 print(f"F1_score: {f1_score(y_test, y_pred): .2f}")
 
+#crearea matricei de confuzie
+conf_matrix = confusion_matrix(y_test, y_pred)
+sns.heatmap(conf_matrix, annot = True, fmt = 'd', cmap = "Blues", xticklabels = ["Sanatos", "Bolnav"], yticklabels = ["Sanatos", "Bolnav"])
+plt.xlabel("Valori prezise")
+plt.ylabel("Valori reale")
+plt.title("Matrice de confuzie")
+plt.tight_layout()
+plt.savefig("confusion_matrix.png")
+plt.clf()
